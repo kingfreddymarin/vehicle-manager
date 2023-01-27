@@ -1,24 +1,17 @@
-const faker = require('faker');
 const boom = require('@hapi/boom'); //library for assistance in error handling
+const mysql = require('mysql2')
+const connection = require('../libs/connection')
+
+// const connection = mysql.createConnection({
+//   host: '52.20.16.17',
+//   user: 'movistarmysql',
+//   password: 'MovSoft2018',
+//   database: 'EXAMEN'
+// });
 
 class VehicleService {
   constructor() {
     this.vehicles = [];
-    this.generate();
-  }
-
-  async generate() {
-    const limit = 5;
-    for (let i = 0; i < limit; i++) {
-      this.vehicles.push({
-        id: faker.datatype.uuid(),
-        placa: 'M407019',
-        marca: "Honda",
-        modelo: "civic",
-        serie: "7m",
-        color: "Negro"
-      });
-    }
   }
 
   async create(data) {
@@ -30,7 +23,18 @@ class VehicleService {
     return newVehicle;
   }
   async find() {
-    return this.vehicles;
+    // const sqlGet = "select * from vehiculos"
+    // db.query(sqlGet, (err, result)=>{
+    //   return result
+    // })
+    try {
+      const [rows, fields] = await connection.promise().query('SELECT * FROM vehiculos');
+      return rows;
+    } catch (error) {
+      throw error;
+    } finally {
+      connection.end();
+    }
   }
 
   async findOne(id) {
