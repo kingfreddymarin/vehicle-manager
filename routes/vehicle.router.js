@@ -21,12 +21,12 @@ router.get('/', async (req, res, next) => {
 });
 // get product per id (dynamic)
 router.get(
-  '/:id',
+  '/:placa',
   validatorHandler(getVehicleSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const vehicle = await service.findOne(id);
+      const { placa } = req.params;
+      const vehicle = await service.findOne(placa);
       res.json(vehicle);
     } catch (error) {
       next(error);

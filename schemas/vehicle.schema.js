@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 //parameters
-const id = Joi.string().uuid();
 const placa = Joi.string();
 const marca = Joi.string();
 const modelo = Joi.string();
@@ -24,7 +23,6 @@ const createVehicleSchema = Joi.object({
 
 //update parameters
 const updateVehicleSchema = Joi.object({
-  placa: placa,
   marca: marca,
   modelo: modelo,
   serie: serie,
@@ -33,7 +31,7 @@ const updateVehicleSchema = Joi.object({
 
 //get a product parameter
 const getVehicleSchema = Joi.object({
-  id: id.required(),
+  placa: placa.required(),
 });
 
 module.exports = {

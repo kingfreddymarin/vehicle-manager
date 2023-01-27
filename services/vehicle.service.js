@@ -1,17 +1,12 @@
 const boom = require('@hapi/boom'); //library for assistance in error handling
 const mysql = require('mysql2')
-const connection = require('../libs/connection')
-
-// const connection = mysql.createConnection({
-//   host: '52.20.16.17',
-//   user: 'movistarmysql',
-//   password: 'MovSoft2018',
-//   database: 'EXAMEN'
-// });
+const pool = require('../libs/connection.pool')
 
 class VehicleService {
   constructor() {
     this.vehicles = [];
+    this.pool = pool;
+    this.pool.on('error', (err) => console.error(err));
   }
 
   async create(data) {
@@ -23,22 +18,13 @@ class VehicleService {
     return newVehicle;
   }
   async find() {
-    // const sqlGet = "select * from vehiculos"
-    // db.query(sqlGet, (err, result)=>{
-    //   return result
-    // })
-    try {
-      const [rows, fields] = await connection.promise().query('SELECT * FROM vehiculos');
-      return rows;
-    } catch (error) {
-      throw error;
-    } finally {
-      connection.end();
-    }
+    const query = 'SELECT * FROM vehiculos';
+    const [rows] = await this.pool.promise().query(query)
+    return rows;
   }
 
-  async findOne(id) {
-    const vehicle = this.vehicles.find((item) => item.id === id);
+  async findOne(placa) {
+    const vehicle = this.vehicles.find((item) => item.placa === placa);
     if (!vehicle) {
       throw boom.notFound('vehicle not found');
     }
