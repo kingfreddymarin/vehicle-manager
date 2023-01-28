@@ -1,57 +1,42 @@
 const boom = require('@hapi/boom'); //library for assistance in error handling
 const mysql = require('mysql2')
-const pool = require('../libs/connection.pool')
+const { models } = require('../libs/sequelize')
 
 class VehicleService {
   constructor() {
     this.vehicles = [];
-    this.pool = pool;
-    this.pool.on('error', (err) => console.error(err));
-  }
+  };
 
   async create(data) {
-    const newVehicle = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.vehicles.push(newVehicle);
+    const newVehicle = await models.Vehicle.create(data)
     return newVehicle;
-  }
+  };
   async find() {
-    const query = 'SELECT * FROM vehiculos';
-    const [rows] = await this.pool.promise().query(query)
-    return rows;
-  }
+    const data = await models.Vehicle.findAll();
+    return data;
+  };
 
   async findOne(placa) {
-    const vehicle = this.vehicles.find((item) => item.placa === placa);
-    if (!vehicle) {
-      throw boom.notFound('vehicle not found');
+    const vehicle = await models.Vehicle.findByPk(placa);
+    if(!vehicle){
+      throw boom.notFound('vehicle not found')
     }
     return vehicle;
   }
 
-  async update(id, changes) {
-    const index = this.vehicles.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('vehicle not found');
-    }
-    const vehicle = this.vehicles[index];
-    this.vehicles[index] = {
-      ...vehicle,
-      ...changes,
+  async update(placa, changes) {
+    const vehicle = await this.findOne(placa)
+    const rta = await vehicle.update(changes);
+    return{
+      placa, changes
     };
-    return this.vehicles[index];
-  }
+  };
 
-  async delete(id) {
-    const index = this.vehicles.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('vehicle not found');
-    }
-    this.vehicles.splice(index, 1);
-    return { id };
-  }
-}
+  async delete(placa) {
+    const vehicle =  await this.findOne(placa)
+    await vehicle.destroy();    
+    return { placa };
+  };
+};
 
 module.exports = VehicleService;

@@ -49,14 +49,14 @@ router.post(
 );
 //patch a product (update)(dynamic)
 router.patch(
-  '/:id',
+  '/:placa',
   validatorHandler(getVehicleSchema, 'params'),
   validatorHandler(updateVehicleSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { placa } = req.params;
       const body = req.body;
-      const vehicle = await service.update(id, body);
+      const vehicle = await service.update(placa, body);
       res.json(vehicle);
     } catch (error) {
       next(error);
@@ -64,10 +64,10 @@ router.patch(
   }
 );
 //delete a product
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:placa', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const rply = await service.delete(id);
+    const { placa } = req.params;
+    const rply = await service.delete(placa);
     res.json(rply);
   } catch (error) {
     next(error);

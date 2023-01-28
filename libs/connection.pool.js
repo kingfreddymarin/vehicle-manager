@@ -1,10 +1,17 @@
 const {createPool} = require('mysql2')
+const {config} = require('../config/config')
+
+const HOST = encodeURIComponent(config.dbHost);
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword);
+const DATABASE = encodeURIComponent(config.dbName);
+
 
 const pool = createPool({
-  host: '52.20.16.17',
-  user: 'movistarmysql',
-  password: 'MovSoft2018',
-  database: 'EXAMEN',
+  host: HOST,
+  user: USER,
+  password: PASSWORD,
+  database: DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
