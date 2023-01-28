@@ -8,7 +8,7 @@ const {
   errorHandler,
   boomErrorHandler,
 } = require('./middlewares/error.handler');
-const whitelist = ['http://localhost:5000'];
+const whitelist = ['http://localhost:5000', 'http://localhost:4200'];
 //Seting the cors configurations
 const corsOptions = {
   origin: (origin, callback) => {
