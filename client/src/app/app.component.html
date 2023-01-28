@@ -234,7 +234,6 @@
 </style>
 </head>
 <body ng-app="myApp">
-	
     <div ng-controller="VehicleController" class="container">
 		<div class="table-responsive">
 			<div class="table-wrapper">
@@ -242,9 +241,6 @@
 					<div class="row">
 						<div class="col-xs-6">
 							<h2>Manage <b>Vehicles</b></h2>
-						</div>
-						<div class="col-xs-6">
-							<a class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
 						</div>
 					</div>
 				</div>
@@ -268,7 +264,7 @@
 							<td>{{vehicle.serie}}</td>
                             <td>{{vehicle.color}}</td> 
 							<td>
-								<a href="#" ng-click="delete(vehicle.placa)" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+								<a href="#" (click)="deleteVehicle(vehicle.placa)" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 							</td>
 						</tr> 
 					</tbody>
@@ -279,34 +275,34 @@
 	<div>
 		<div  class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form ng-submit="">
 					<div class="modal-header">						
 						<h4 class="modal-title">Add Vehicle</h4>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>Placa</label>
-							<input type="text" class="form-control" required>
+							<input type="text" class="form-control" required #placa>
 						</div>
 						<div class="form-group">
 							<label>Marca</label>
-							<input type="text" class="form-control" required>
+							<input type="text" class="form-control" required #marca>
 						</div>
 						<div class="form-group">
 							<label>Modelo</label>
-							<input type="text"class="form-control" required>
+							<input type="text"class="form-control" required #modelo>
 						</div>
 						<div class="form-group">
 							<label>Serie</label>
-							<input type="text" class="form-control"  required>
+							<input type="text" class="form-control"  required #serie>
 						</div>	
 						<div class="form-group">
 							<label>Color</label>
-							<input type="text" class="form-control"  required>
+							<input type="text" class="form-control"  required #color>
 						</div>	
 					</div>
 					<div class="modal-footer">
-						<input type="submit" class="btn btn-info" value="Save" >
+						<input (click)="addVehicle(placa.value, marca.value, modelo.value, serie.value, color.value)"type="button" class="btn btn-info" value="Save" >
 					</div>
 				</form>
 			</div>
