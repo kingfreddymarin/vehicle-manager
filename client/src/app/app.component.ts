@@ -23,7 +23,6 @@ export class AppComponent {
   addVehicle(placa: string, marca: string, modelo: string, serie: string, color: string){
     this.http.post('http://localhost:5000/api/vehicles/', { placa, marca, modelo, serie, color })
       .subscribe(data => {
-        console.log(data);
         location.reload()
       });
   }
@@ -32,7 +31,6 @@ export class AppComponent {
     this.http.get('http://localhost:5000/api/vehicles')
       .subscribe(data => {
         this.vehicles = data;
-        console.log(this.vehicles);
       });
       
   }
