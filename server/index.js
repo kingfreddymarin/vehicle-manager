@@ -8,7 +8,7 @@ const {
   errorHandler,
   boomErrorHandler,
 } = require('./middlewares/error.handler');
-const whitelist = ['http://localhost:5000', 'http://localhost:4200'];
+const whitelist = ['*'];
 //Seting the cors configurations
 const corsOptions = {
   origin: (origin, callback) => {
@@ -22,6 +22,7 @@ const corsOptions = {
 };
 //before anything to be able to read JSON req through operations
 app.use(express.json());
+app.use(cors())
 routingApi(app);
 app.use(cors(corsOptions));
 // error middleware
